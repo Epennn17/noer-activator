@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Activate — Noerz Activator</title>
+<meta name="description" content="Mulai proses aktivasi atau verifikasi di sini.">
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
+<style>
+  :root{
+    --bg:#08080a;
+    --surface:rgba(255,255,255,0.035);
+    --surface-hover:rgba(255,255,255,0.06);
+    --border:rgba(255,255,255,0.08);
+    --border-strong:rgba(255,255,255,0.14);
+    --text:#f5f5f7;
+    --text-secondary:#9a9aa2;
+    --text-tertiary:#68686f;
+    --accent:#3b82f6;
+    --accent-soft:rgba(59,130,246,0.12);
+    --success:#34d399;
+    --error:#f87171;
+    --radius-sm:10px;
+    --radius-md:14px;
+    --radius-lg:20px;
+    --ease:cubic-bezier(0.16,1,0.3,1);
+  }
+
+  *, *::before, *::after{
+    margin:0;padding:0;box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+  }
+
+  html{
+    overflow-x:hidden;overflow-x:clip;
+    width:100%;max-width:100%;
+  }
+  body{
+    overflow-x:hidden;overflow-x:clip;
+    width:100%;max-width:100%;
+    background:var(--bg);color:var(--text);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;min-height:100vh;
+  }
+  main,section,div{max-width:100%;}
+  img,video,svg{max-width:100%;height:auto;display:block;}
+
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px;}
+  :focus:not(:focus-visible){outline:none;}
+
+  .container{
+    width:100%;max-width:640px;
+    margin:0 auto;padding:0 16px;
+    box-sizing:border-box;
+  }
+
+  /* ===== NAV ===== */
+  .nav{
+    position:sticky;top:0;z-index:100;width:100%;
+    background:rgba(8,8,10,0.75);
+    backdrop-filter:blur(20px) saturate(160%);
+    -webkit-backdrop-filter:blur(20px) saturate(160%);
+    border-bottom:0.5px solid var(--border);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:56px;}
+  .brand{
+    display:flex;align-items:center;gap:10px;
+    font-weight:700;font-size:15px;min-width:0;
+  }
+  .brand img{width:28px;height:28px;border-radius:7px;object-fit:cover;flex-shrink:0;}
+  .brand span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .menu-btn{
+    width:38px;height:38px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    border-radius:10px;font-size:22px;
+    background:rgba(255,255,255,0.04);
+    border:0.5px solid var(--border);
+    transition:background .2s var(--ease);
+  }
+  .menu-btn:hover{background:rgba(255,255,255,0.08);}
+  .menu-btn:active{transform:scale(0.94);}
+
+  /* ===== MENU PANEL ===== */
+  .menu-overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,0.5);
+    backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+    opacity:0;pointer-events:none;
+    transition:opacity .25s var(--ease);z-index:200;
+  }
+  .menu-overlay.open{opacity:1;pointer-events:auto;}
+
+  .menu-panel{
+    position:fixed;top:0;right:0;height:100%;width:280px;max-width:82vw;
+    background:rgba(14,14,16,0.9);
+    backdrop-filter:blur(30px) saturate(180%);
+    -webkit-backdrop-filter:blur(30px) saturate(180%);
+    border-left:0.5px solid var(--border);
+    z-index:201;transform:translateX(100%);
+    transition:transform .3s var(--ease);
+    display:flex;flex-direction:column;
+  }
+  .menu-panel.open{transform:translateX(0);}
+  .menu-header{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 20px;border-bottom:0.5px solid var(--border);
+    height:56px;flex-shrink:0;
+  }
+  .menu-header span{font-weight:700;font-size:14px;}
+  .menu-close{
+    width:34px;height:34px;
+    display:flex;align-items:center;justify-content:center;
+    border-radius:9px;font-size:20px;
+    transition:background .2s var(--ease);
+  }
+  .menu-close:hover{background:rgba(255,255,255,0.06);}
+  .menu-body{padding:12px;display:flex;flex-direction:column;gap:4px;flex:1;overflow-y:auto;}
+  .menu-item{
+    display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:10px;
+    font-size:14.5px;font-weight:500;border:0.5px solid transparent;
+    transition:background .2s var(--ease), border-color .2s var(--ease);
+  }
+  .menu-item:hover{background:rgba(255,255,255,0.05);}
+  .menu-item.active{
+    background:rgba(59,130,246,0.12);
+    border-color:rgba(59,130,246,0.2);
+    color:var(--accent);
+  }
+  .menu-item .bx{font-size:19px;color:var(--text-secondary);flex-shrink:0;}
+  .menu-item.active .bx{color:var(--accent);}
+  .menu-footer{
+    padding:16px 20px;border-top:0.5px solid var(--border);
+    font-size:11.5px;color:var(--text-tertiary);flex-shrink:0;
+  }
+
+  /* ===== PAGE ===== */
+  .page{padding:32px 0 64px;}
+  .page-head{text-align:center;margin-bottom:24px;}
+  .page-head h1{
+    font-size:26px;font-weight:800;letter-spacing:-0.02em;margin-bottom:6px;
+  }
+  .page-head p{color:var(--text-secondary);font-size:14px;}
+
+  @media (min-width:640px){
+    .page{padding:56px 0 80px;}
+    .page-head{margin-bottom:32px;}
+    .page-head h1{font-size:34px;}
+    .page-head p{font-size:14.5px;}
+  }
+
+  /* ===== TABS ===== */
+  .tabs{
+    display:flex;gap:4px;padding:4px;
+    background:var(--surface);
+    border:0.5px solid var(--border);
+    border-radius:12px;margin-bottom:20px;
+  }
+  .tab-btn{
+    flex:1;padding:10px 12px;border-radius:9px;
+    font-size:13.5px;font-weight:600;
+    color:var(--text-secondary);
+    transition:background .25s var(--ease), color .25s var(--ease);
+    display:flex;align-items:center;justify-content:center;gap:6px;
+  }
+  .tab-btn .bx{font-size:16px;}
+  .tab-btn.active{
+    background:rgba(255,255,255,0.08);
+    color:var(--text);
+    box-shadow:0 1px 3px rgba(0,0,0,0.3);
+  }
+  .tab-btn:hover:not(.active){color:var(--text);}
+
+  /* ===== PANEL ===== */
+  .panel{display:none;}
+  .panel.active{display:block;animation:fadeIn .3s var(--ease);}
+
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  .card{
+    background:var(--surface);
+    border:0.5px solid var(--border);
+    border-radius:var(--radius-md);
+    padding:20px;
+  }
+  @media (min-width:640px){ .card{padding:24px;} }
+
+  /* ===== FORM ===== */
+  .field{margin-bottom:16px;}
+  .field label{
+    display:block;font-size:12.5px;font-weight:600;
+    color:var(--text-secondary);margin-bottom:8px;
+    letter-spacing:0.02em;
+  }
+  .field input,
+  .field textarea{
+    width:100%;padding:13px 14px;
+    background:rgba(0,0,0,0.25);
+    border:0.5px solid var(--border-strong);
+    border-radius:var(--radius-sm);
+    color:var(--text);font-family:inherit;font-size:15px;
+    transition:border-color .2s var(--ease), box-shadow .2s var(--ease), background .2s var(--ease);
+    resize:vertical;max-width:100%;
+  }
+  .field textarea{min-height:110px;line-height:1.5;}
+  .field input::placeholder,
+  .field textarea::placeholder{color:var(--text-tertiary);}
+  .field input:focus,
+  .field textarea:focus{
+    outline:none;border-color:var(--accent);
+    background:rgba(0,0,0,0.35);
+    box-shadow:0 0 0 3px var(--accent-soft);
+  }
+  .field input.error,
+  .field textarea.error{border-color:var(--error);}
+  .field-error{
+    display:none;font-size:12px;color:var(--error);
+    margin-top:6px;align-items:center;gap:5px;
+  }
+  .field-error.show{display:flex;}
+
+  .session-badge{
+    display:none;align-items:center;gap:6px;
+    font-size:11.5px;font-weight:600;color:var(--accent);
+    margin-top:6px;
+  }
+  .session-badge.show{display:inline-flex;}
+
+  /* ===== BUTTONS ===== */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:13px 22px;border-radius:100px;
+    font-size:14.5px;font-weight:600;
+    transition:transform .15s var(--ease), background .2s var(--ease), opacity .2s var(--ease);
+    white-space:nowrap;width:100%;
+  }
+  .btn-primary{
+    background:rgba(255,255,255,0.95);
+    color:#08080a;
+    box-shadow:0 1px 0 rgba(255,255,255,0.6) inset, 0 6px 24px -6px rgba(255,255,255,0.2);
+  }
+  .btn-primary:hover:not(:disabled){
+    background:#fff;
+    box-shadow:0 1px 0 rgba(255,255,255,0.8) inset, 0 8px 32px -6px rgba(255,255,255,0.3);
+  }
+  .btn-primary:active:not(:disabled){transform:scale(0.98);}
+  .btn:disabled{opacity:0.6;cursor:not-allowed;}
+
+  .btn .spinner{
+    width:14px;height:14px;
+    border:2px solid rgba(0,0,0,0.15);
+    border-top-color:currentColor;
+    border-radius:50%;
+    animation:spin .7s linear infinite;display:none;
+  }
+  .btn.loading .spinner{display:inline-block;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  /* ===== STATUS ===== */
+  .status{
+    display:none;margin-top:16px;padding:22px 20px;
+    background:var(--surface);
+    border:0.5px solid var(--border);
+    border-radius:var(--radius-md);text-align:center;
+  }
+  .status.show{display:block;animation:fadeIn .35s var(--ease);}
+  .status.success{border-color:rgba(52,211,153,0.3);}
+  .status.error{border-color:rgba(248,113,113,0.3);}
+  .status-icon{
+    width:52px;height:52px;border-radius:50%;
+    margin:0 auto 14px;
+    display:flex;align-items:center;justify-content:center;font-size:26px;
+  }
+  .status-icon.success{background:rgba(52,211,153,0.1);color:var(--success);}
+  .status-icon.error{background:rgba(248,113,113,0.1);color:var(--error);}
+  .status h3{font-size:16px;font-weight:700;margin-bottom:6px;}
+  .status p{
+    color:var(--text-secondary);font-size:13.5px;
+    line-height:1.5;margin-bottom:16px;word-wrap:break-word;
+  }
+  .status-actions{
+    display:flex;gap:8px;justify-content:center;flex-wrap:wrap;
+  }
+
+  .btn-ghost{
+    display:inline-flex;align-items:center;justify-content:center;gap:6px;
+    padding:10px 16px;border-radius:100px;
+    font-size:13px;font-weight:600;
+    background:rgba(255,255,255,0.06);
+    border:0.5px solid var(--border-strong);
+    transition:background .2s var(--ease), border-color .2s var(--ease);
+    width:auto;
+  }
+  .btn-ghost:hover{
+    background:rgba(255,255,255,0.1);
+    border-color:rgba(255,255,255,0.2);
+  }
+  .btn-ghost.success{
+    background:rgba(52,211,153,0.12);
+    border-color:rgba(52,211,153,0.3);
+    color:var(--success);
+  }
+  .btn-ghost.success:hover{
+    background:rgba(52,211,153,0.18);
+  }
+
+  /* ===== TOAST ===== */
+  .toast-wrap{
+    position:fixed;top:70px;left:50%;transform:translateX(-50%);
+    z-index:500;display:flex;flex-direction:column;gap:8px;
+    width:calc(100% - 32px);max-width:400px;pointer-events:none;
+  }
+  .toast{
+    background:rgba(20,20,24,0.95);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border:0.5px solid var(--border);
+    border-radius:var(--radius-sm);
+    padding:13px 15px;
+    display:flex;align-items:center;gap:10px;
+    box-shadow:0 12px 40px -8px rgba(0,0,0,0.6);
+    animation:slideDown .3s var(--ease);
+    pointer-events:auto;font-size:13.5px;
+    word-wrap:break-word;
+  }
+  .toast.success{border-left:3px solid var(--success);}
+  .toast.error{border-left:3px solid var(--error);}
+  .toast i{font-size:19px;flex-shrink:0;}
+  .toast.success i{color:var(--success);}
+  .toast.error i{color:var(--error);}
+
+  @keyframes slideDown{
+    from{opacity:0;transform:translateY(-10px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+
+  /* ===== FOOTER ===== */
+  footer{
+    border-top:0.5px solid var(--border);
+    padding:24px 0;text-align:center;
+    font-size:12.5px;color:var(--text-tertiary);
+    margin-top:40px;
+  }
+
+  @media (max-width:640px){
+    .status-actions{flex-direction:column;}
+    .status-actions .btn-ghost{width:100%;}
+  }
+</style>
+</head>
+<body data-page="activate">
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="brand">
+      <img src="assets/logo.png" alt="Noerz Activator">
+      <span>Noerz Activator</span>
+    </a>
+    <button class="menu-btn" id="menuOpenBtn" aria-label="Buka menu" aria-expanded="false">
+      <i class='bx bx-menu'></i>
+    </button>
+  </div>
+</nav>
+
+<div class="menu-overlay" id="menuOverlay"></div>
+<aside class="menu-panel" id="menuPanel" aria-hidden="true">
+  <div class="menu-header">
+    <span>Menu</span>
+    <button class="menu-close" id="menuCloseBtn" aria-label="Tutup menu">
+      <i class='bx bx-x'></i>
+    </button>
+  </div>
+  <div class="menu-body">
+    <a href="index.html" class="menu-item"><i class='bx bx-home'></i> Home</a>
+    <a href="activate.html" class="menu-item active"><i class='bx bx-paper-plane'></i> Activate</a>
+    <a href="donation.html" class="menu-item"><i class='bx bx-heart'></i> Donation</a>
+    <a href="feedback.html" class="menu-item"><i class='bx bx-message-square-detail'></i> Report Feedback</a>
+  </div>
+  <div class="menu-footer">Noerz Activator · AM Activators Engine</div>
+</aside>
+
+<main class="page">
+  <div class="container">
+
+    <div class="page-head">
+      <h1>Activation</h1>
+      <p>Pilih mode di bawah untuk memulai.</p>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="send">
+        <i class='bx bx-paper-plane'></i> Send
+      </button>
+      <button class="tab-btn" data-tab="verify">
+        <i class='bx bx-shield-quarter'></i> Verify
+      </button>
+    </div>
+
+    <!-- ===== PANEL SEND ===== -->
+    <div class="panel active" id="panel-send">
+      <div class="card" id="sendCard">
+        <form id="sendForm" novalidate>
+          <div class="field">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="user@email.com" autocomplete="email" required>
+            <div class="field-error" id="emailError">
+              <i class='bx bx-error-circle'></i>
+              <span>Masukkan alamat email yang valid.</span>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" id="sendBtn">
+            <span class="spinner"></span>
+            <span class="btn-label">Send Activation</span>
+          </button>
+        </form>
+      </div>
+
+      <div class="status" id="sendStatus">
+        <div class="status-icon" id="sendStatusIcon"></div>
+        <h3 id="sendStatusTitle"></h3>
+        <p id="sendStatusMsg"></p>
+        <div class="status-actions">
+          <button type="button" class="btn-ghost success" id="confirmReceivedBtn" style="display:none;">
+            <i class='bx bx-check-circle'></i>
+            Saya Sudah Menerima Link
+          </button>
+          <button type="button" class="btn-ghost" id="retrySendBtn" style="display:none;">
+            <i class='bx bx-refresh'></i>
+            Coba Lagi
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PANEL VERIFY ===== -->
+    <div class="panel" id="panel-verify">
+      <div class="card" id="verifyCard">
+        <form id="verifyForm" novalidate>
+          <div class="field">
+            <label for="verifyEmail">Email Address</label>
+            <input type="email" id="verifyEmail" name="email" placeholder="user@email.com" autocomplete="email" required>
+            <div class="field-error" id="verifyEmailError">
+              <i class='bx bx-error-circle'></i>
+              <span>Masukkan alamat email yang valid.</span>
+            </div>
+            <div class="session-badge" id="sessionBadge">
+              <i class='bx bx-check-circle'></i>
+              <span>Terisi otomatis dari sesi sebelumnya</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="activationLink">Activation Link</label>
+            <textarea id="activationLink" name="link" placeholder="Tempel link aktivasi di sini..." required></textarea>
+            <div class="field-error" id="linkError">
+              <i class='bx bx-error-circle'></i>
+              <span>Masukkan link aktivasi yang valid (http/https).</span>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" id="verifyBtn">
+            <span class="spinner"></span>
+            <span class="btn-label">Verify Activation</span>
+          </button>
+        </form>
+      </div>
+
+      <div class="status" id="verifyStatus">
+        <div class="status-icon" id="verifyStatusIcon"></div>
+        <h3 id="verifyStatusTitle"></h3>
+        <p id="verifyStatusMsg"></p>
+        <div class="status-actions">
+          <a href="index.html" class="btn-ghost">
+            <i class='bx bx-home'></i> Back to Home
+          </a>
+          <button type="button" class="btn-ghost" id="sendAgainBtn">
+            <i class='bx bx-refresh'></i> Send Again
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    © 2026 Noerholic. All rights reserved.
+  </div>
+</footer>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script src="app.js" defer></script>
+
+</body>
+</html>

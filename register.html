@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Daftar — Noerz Activator</title>
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
+<style>
+  :root{
+    --bg:#08080a;
+    --surface:rgba(255,255,255,0.04);
+    --border:rgba(255,255,255,0.08);
+    --border-strong:rgba(255,255,255,0.14);
+    --border-glow:rgba(255,255,255,0.3);
+    --text:#f5f5f7;
+    --text-secondary:#9a9aa2;
+    --text-tertiary:#68686f;
+    --radius-sm:10px;
+    --radius-md:14px;
+    --radius-full:9999px;
+    --ease:cubic-bezier(0.16,1,0.3,1);
+    --glow-sm:0 0 16px rgba(255,255,255,0.06);
+    --glow-md:0 0 24px rgba(255,255,255,0.12);
+  }
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html{overflow-x:hidden;overflow-x:clip;}
+  body{
+    overflow-x:hidden;overflow-x:clip;
+    background:var(--bg);color:var(--text);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;min-height:100vh;font-size:15px;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+  :focus{outline:none;}
+  :focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:6px;}
+
+  .container-sm{width:100%;max-width:440px;margin:0 auto;padding:0 16px;box-sizing:border-box;}
+
+  .nav{
+    position:sticky;top:0;z-index:100;
+    background:rgba(8,8,10,0.75);
+    backdrop-filter:blur(20px) saturate(160%);
+    -webkit-backdrop-filter:blur(20px) saturate(160%);
+    border-bottom:0.5px solid var(--border);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:56px;}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;color:var(--text);}
+  .brand img{width:28px;height:28px;border-radius:7px;object-fit:cover;}
+
+  .page{
+    padding:40px 0 64px;
+    display:flex;align-items:center;
+    min-height:calc(100vh - 56px);
+  }
+  .page-inner{width:100%;}
+
+  .auth-logo{
+    width:64px;height:64px;border-radius:16px;
+    margin:0 auto 20px;object-fit:cover;
+    box-shadow:0 0 32px rgba(255,255,255,0.15);
+  }
+  .auth-head{text-align:center;margin-bottom:28px;}
+  .auth-head h1{
+    font-size:26px;font-weight:800;
+    letter-spacing:-0.02em;margin-bottom:6px;
+  }
+  .auth-head p{font-size:14px;color:var(--text-secondary);}
+
+  .card{
+    background:var(--surface);
+    border:0.5px solid var(--border);
+    border-radius:var(--radius-md);
+    padding:24px;
+  }
+
+  .field{margin-bottom:16px;}
+  .field label{
+    display:block;font-size:12.5px;font-weight:600;
+    color:var(--text-secondary);margin-bottom:8px;
+    letter-spacing:0.02em;
+  }
+  .field input{
+    width:100%;padding:13px 15px;
+    background:rgba(0,0,0,0.25);
+    border:0.5px solid var(--border-strong);
+    border-radius:var(--radius-sm);
+    color:var(--text);font-family:inherit;font-size:15px;
+    transition:border-color .2s var(--ease),box-shadow .2s var(--ease),background .2s var(--ease);
+  }
+  .field input::placeholder{color:var(--text-tertiary);}
+  .field input:focus{
+    outline:none;border-color:rgba(255,255,255,0.4);
+    background:rgba(0,0,0,0.35);
+    box-shadow:0 0 0 3px rgba(255,255,255,0.08),0 0 20px rgba(255,255,255,0.06);
+  }
+  .field input.error{border-color:rgba(255,255,255,0.3);}
+
+  .field-hint{
+    font-size:11.5px;color:var(--text-tertiary);
+    margin-top:6px;line-height:1.5;
+  }
+
+  .field-error{
+    display:none;font-size:12px;color:var(--text-secondary);
+    margin-top:6px;align-items:center;gap:5px;
+  }
+  .field-error.show{display:flex;}
+  .field-error .bx{font-size:14px;flex-shrink:0;}
+
+  .field-with-icon{position:relative;}
+  .field-with-icon input{padding-right:44px;}
+  .field-toggle{
+    position:absolute;right:14px;top:50%;transform:translateY(-50%);
+    font-size:18px;color:var(--text-tertiary);
+    line-height:1;transition:color .2s var(--ease);
+  }
+  .field-toggle:hover{color:var(--text);}
+
+  .strength{display:flex;gap:4px;margin-top:8px;}
+  .strength-bar{
+    flex:1;height:3px;border-radius:2px;
+    background:rgba(255,255,255,0.08);
+    transition:background .2s var(--ease);
+  }
+  .strength-bar.active{background:rgba(255,255,255,0.6);}
+  .strength-bar.strong{background:#fff;box-shadow:0 0 8px rgba(255,255,255,0.5);}
+  .strength-text{
+    font-size:11px;color:var(--text-tertiary);
+    margin-top:6px;transition:color .2s var(--ease);
+  }
+  .strength-text.weak{color:var(--text-secondary);}
+  .strength-text.good{color:#fff;}
+
+  .checkbox-wrap{
+    display:flex;align-items:flex-start;gap:10px;
+    margin-bottom:20px;
+  }
+  .checkbox-wrap input[type="checkbox"]{
+    appearance:none;-webkit-appearance:none;
+    width:20px;height:20px;
+    border:0.5px solid var(--border-strong);
+    border-radius:6px;
+    background:rgba(0,0,0,0.25);
+    cursor:pointer;flex-shrink:0;margin-top:1px;
+    position:relative;
+    transition:background .2s var(--ease),border-color .2s var(--ease);
+  }
+  .checkbox-wrap input[type="checkbox"]:checked{
+    background:#fff;border-color:#fff;
+  }
+  .checkbox-wrap input[type="checkbox"]:checked::after{
+    content:'✓';position:absolute;top:50%;left:50%;
+    transform:translate(-50%,-50%);color:var(--bg);
+    font-size:13px;font-weight:700;
+  }
+  .checkbox-wrap label{
+    font-size:12.5px;color:var(--text-secondary);
+    line-height:1.55;cursor:pointer;
+  }
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:13px 24px;border-radius:var(--radius-full);
+    font-size:14.5px;font-weight:700;
+    width:100%;white-space:nowrap;cursor:pointer;
+    transition:transform .15s var(--ease),box-shadow .2s var(--ease),background .2s var(--ease);
+  }
+  .btn:active:not(:disabled){transform:scale(0.98);}
+  .btn:disabled{opacity:0.6;cursor:not-allowed;}
+  .btn .bx{font-size:18px;flex-shrink:0;}
+  .btn-primary{
+    background:#fff;color:var(--bg);
+    box-shadow:0 0 24px rgba(255,255,255,0.2);
+  }
+  .btn-primary:hover:not(:disabled){
+    background:#f5f5f7;
+    box-shadow:0 0 40px rgba(255,255,255,0.35),0 0 80px rgba(255,255,255,0.15);
+  }
+  .btn .spinner{
+    width:14px;height:14px;
+    border:2px solid rgba(0,0,0,0.2);
+    border-top-color:currentColor;border-radius:50%;
+    animation:spin .7s linear infinite;display:none;flex-shrink:0;
+  }
+  .btn.loading .spinner{display:inline-block;}
+  .btn.loading{pointer-events:none;opacity:0.7;}
+
+  .auth-foot{
+    text-align:center;margin-top:20px;
+    font-size:13.5px;color:var(--text-secondary);
+  }
+  .auth-foot a{
+    color:#fff;font-weight:600;
+    text-decoration:underline;
+    text-underline-offset:3px;
+    text-decoration-color:rgba(255,255,255,0.3);
+    transition:text-decoration-color .2s var(--ease);
+  }
+  .auth-foot a:hover{text-decoration-color:#fff;}
+
+  .success-card{
+    display:none;
+    background:var(--surface);
+    border:0.5px solid var(--border-strong);
+    border-radius:var(--radius-md);
+    padding:32px 24px;
+    text-align:center;
+    box-shadow:var(--glow-sm);
+  }
+  .success-card.show{display:block;animation:fadeIn .4s var(--ease);}
+  .success-icon{
+    width:64px;height:64px;border-radius:50%;
+    margin:0 auto 20px;
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(255,255,255,0.06);
+    border:0.5px solid rgba(255,255,255,0.15);
+    color:#fff;font-size:32px;
+    box-shadow:0 0 32px rgba(255,255,255,0.15);
+  }
+  .success-card h2{font-size:20px;font-weight:800;margin-bottom:8px;}
+  .success-card p{
+    font-size:14px;color:var(--text-secondary);
+    line-height:1.6;margin-bottom:12px;
+  }
+  .success-card p:last-of-type{margin-bottom:20px;}
+  .success-card p strong{color:#fff;}
+
+  .toast-wrap{
+    position:fixed;top:70px;left:50%;transform:translateX(-50%);z-index:500;
+    display:flex;flex-direction:column;gap:8px;
+    width:calc(100% - 32px);max-width:400px;pointer-events:none;
+  }
+  .toast{
+    background:rgba(20,20,24,0.95);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border:0.5px solid rgba(255,255,255,0.15);
+    border-radius:var(--radius-sm);padding:13px 15px;
+    display:flex;align-items:center;gap:10px;
+    box-shadow:0 12px 40px -8px rgba(0,0,0,0.6),var(--glow-sm);
+    animation:slideDown .3s var(--ease);pointer-events:auto;
+    font-size:13.5px;word-wrap:break-word;
+  }
+  .toast .bx{font-size:19px;flex-shrink:0;color:#fff;}
+  .toast.success{border-left:3px solid #fff;}
+  .toast.error{border-left:3px solid rgba(255,255,255,0.5);}
+  .toast.info{border-left:3px solid rgba(255,255,255,0.3);}
+
+  @keyframes spin{to{transform:rotate(360deg);}}
+  @keyframes slideDown{
+    from{opacity:0;transform:translateY(-10px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+  @keyframes fadeIn{
+    from{opacity:0;transform:translateY(8px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+</style>
+</head>
+<body data-page="register">
+
+<nav class="nav">
+  <div class="container-sm nav-inner">
+    <a href="index.html" class="brand">
+      <img src="assets/logo.png" alt="Noerz Activator">
+      <span>Noerz Activator</span>
+    </a>
+  </div>
+</nav>
+
+<main class="page">
+  <div class="container-sm page-inner">
+
+    <img src="assets/logo.png" alt="Noerz Activator" class="auth-logo">
+
+    <div class="auth-head" id="authHead">
+      <h1>Buat Akun</h1>
+      <p>Daftar gratis, dapat 3x aktivasi Free</p>
+    </div>
+
+    <div class="card" id="registerCard">
+      <form id="registerForm" novalidate>
+
+        <div class="field">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" placeholder="noerholic" autocomplete="username" required>
+          <div class="field-hint">Min. 3 karakter, tanpa spasi.</div>
+          <div class="field-error" id="usernameError">
+            <i class='bx bx-error-circle'></i>
+            <span>Username wajib diisi (min. 3 karakter).</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="user@email.com" autocomplete="email" required>
+          <div class="field-hint">Kami akan kirim link verifikasi ke email ini.</div>
+          <div class="field-error" id="emailError">
+            <i class='bx bx-error-circle'></i>
+            <span>Masukkan email yang valid.</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="field-with-icon">
+            <input type="password" id="password" name="password" placeholder="Min. 6 karakter" autocomplete="new-password" required>
+            <button type="button" class="field-toggle" data-toggle-password="password" aria-label="Tampilkan password">
+              <i class='bx bx-show'></i>
+            </button>
+          </div>
+          <div class="strength" id="strengthBars">
+            <div class="strength-bar"></div>
+            <div class="strength-bar"></div>
+            <div class="strength-bar"></div>
+            <div class="strength-bar"></div>
+          </div>
+          <div class="strength-text" id="strengthText">Masukkan password</div>
+          <div class="field-error" id="passwordError">
+            <i class='bx bx-error-circle'></i>
+            <span>Password wajib diisi (min. 6 karakter).</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="confirmPassword">Konfirmasi Password</label>
+          <div class="field-with-icon">
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Ulangi password" autocomplete="new-password" required>
+            <button type="button" class="field-toggle" data-toggle-password="confirmPassword" aria-label="Tampilkan password">
+              <i class='bx bx-show'></i>
+            </button>
+          </div>
+          <div class="field-error" id="confirmError">
+            <i class='bx bx-error-circle'></i>
+            <span>Password tidak cocok.</span>
+          </div>
+        </div>
+
+        <div class="checkbox-wrap">
+          <input type="checkbox" id="agreeTerms" required>
+          <label for="agreeTerms">
+            Saya setuju untuk menggunakan layanan Noerz Activator dengan bijak.
+          </label>
+        </div>
+        <div class="field-error" id="termsError" style="margin-top:-14px;margin-bottom:16px;">
+          <i class='bx bx-error-circle'></i>
+          <span>Anda harus setuju terlebih dahulu.</span>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="registerBtn">
+          <span class="spinner"></span>
+          <span class="btn-label">
+            <i class='bx bx-user-plus'></i> Daftar Gratis
+          </span>
+        </button>
+
+      </form>
+    </div>
+
+    <div class="success-card" id="successCard">
+      <div class="success-icon"><i class='bx bx-envelope'></i></div>
+      <h2>Cek Email Anda</h2>
+      <p>
+        Kami sudah kirim link verifikasi ke<br>
+        <strong id="successEmail">user@email.com</strong>
+      </p>
+      <p style="font-size:13px;">
+        Klik link di email untuk mengaktifkan akun.<br>
+        Tidak dapat email? Cek folder <strong>spam</strong> atau <strong>promosi</strong>.
+      </p>
+      <a href="login.html" class="btn btn-primary">
+        <i class='bx bx-log-in'></i>
+        Ke Halaman Login
+      </a>
+    </div>
+
+    <div class="auth-foot" id="authFoot">
+      Sudah punya akun? <a href="login.html">Login di sini</a>
+    </div>
+
+  </div>
+</main>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/app.js"></script>
+<script src="js/auth.js"></script>
+
+</body>
+</html>

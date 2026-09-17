@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Noerz Activator — AM Activators Engine</title>
+<meta name="description" content="Aktivasi Alight Motion cepat, simple, dan praktis.">
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
+<style>
+  :root{
+    --bg:#08080a;
+    --surface:rgba(255,255,255,0.04);
+    --surface-hover:rgba(255,255,255,0.06);
+    --border:rgba(255,255,255,0.08);
+    --border-strong:rgba(255,255,255,0.14);
+    --border-glow:rgba(255,255,255,0.3);
+    --text:#f5f5f7;
+    --text-secondary:#9a9aa2;
+    --text-tertiary:#68686f;
+    --radius-sm:10px;
+    --radius-md:14px;
+    --radius-lg:20px;
+    --radius-full:9999px;
+    --ease:cubic-bezier(0.16,1,0.3,1);
+    --glow-sm:0 0 16px rgba(255,255,255,0.06);
+    --glow-md:0 0 24px rgba(255,255,255,0.12);
+    --glow-lg:0 0 40px rgba(255,255,255,0.2);
+    --glow-xl:0 0 80px rgba(255,255,255,0.15);
+  }
+
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html{overflow-x:hidden;overflow-x:clip;width:100%;max-width:100%;scroll-behavior:smooth;}
+  body{
+    overflow-x:hidden;overflow-x:clip;
+    width:100%;max-width:100%;
+    background:var(--bg);color:var(--text);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;min-height:100vh;font-size:15px;
+  }
+  main,section,header,footer,nav,div{max-width:100%;}
+  img,video,svg{max-width:100%;height:auto;display:block;}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+  :focus{outline:none;}
+  :focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:6px;}
+  ::selection{background:rgba(255,255,255,0.2);color:#fff;}
+
+  h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.15;letter-spacing:-0.02em;color:var(--text);}
+  h1{font-size:clamp(28px,6vw,42px);font-weight:800;}
+  h2{font-size:clamp(22px,4vw,30px);font-weight:800;}
+  h3{font-size:17px;}
+  h4{font-size:15px;}
+  p{line-height:1.6;}
+  strong{font-weight:700;color:var(--text);}
+
+  .container{width:100%;max-width:960px;margin:0 auto;padding:0 16px;box-sizing:border-box;}
+
+  /* NAV */
+  .nav{
+    position:sticky;top:0;z-index:100;width:100%;
+    background:rgba(8,8,10,0.75);
+    backdrop-filter:blur(20px) saturate(160%);
+    -webkit-backdrop-filter:blur(20px) saturate(160%);
+    border-bottom:0.5px solid var(--border);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:56px;gap:12px;}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;min-width:0;color:var(--text);}
+  .brand:hover{opacity:0.8;}
+  .brand img{width:28px;height:28px;border-radius:7px;object-fit:cover;flex-shrink:0;}
+  .brand span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .nav-actions{display:flex;gap:8px;align-items:center;flex-shrink:0;}
+  .btn-nav{
+    display:inline-flex;align-items:center;justify-content:center;gap:6px;
+    padding:8px 16px;border-radius:var(--radius-full);
+    font-size:13.5px;font-weight:600;
+    border:0.5px solid var(--border-strong);
+    background:rgba(255,255,255,0.04);color:var(--text);
+    white-space:nowrap;
+    transition:background .2s var(--ease),border-color .2s var(--ease),box-shadow .2s var(--ease);
+  }
+  .btn-nav:hover{background:rgba(255,255,255,0.08);border-color:var(--border-glow);}
+  .btn-nav.primary{background:#fff;color:var(--bg);border-color:rgba(255,255,255,0.2);}
+  .btn-nav.primary:hover{background:#f5f5f7;box-shadow:var(--glow-md);}
+  .btn-nav .bx{font-size:16px;}
+
+  @media (max-width:480px){
+    .btn-nav{padding:7px 12px;font-size:12.5px;}
+  }
+
+  /* HERO */
+  .hero{padding:64px 0 32px;text-align:center;}
+  .hero-logo{
+    width:88px;height:88px;border-radius:22px;
+    margin:0 auto 20px;object-fit:cover;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.06),
+      0 0 40px rgba(255,255,255,0.15),
+      0 0 80px rgba(255,255,255,0.08);
+  }
+  .hero-eyebrow{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:11.5px;font-weight:600;letter-spacing:0.08em;
+    text-transform:uppercase;color:var(--text-tertiary);
+    margin-bottom:14px;padding:5px 12px;
+    background:rgba(255,255,255,0.04);
+    border:0.5px solid var(--border);
+    border-radius:var(--radius-full);
+  }
+  .hero-eyebrow .dot{
+    width:6px;height:6px;border-radius:50%;
+    background:#fff;box-shadow:0 0 8px #fff;
+    animation:pulse 2s ease-in-out infinite;
+  }
+  .hero h1{
+    font-size:clamp(30px,7vw,46px);
+    font-weight:800;letter-spacing:-0.03em;line-height:1.05;
+    margin-bottom:8px;
+    background:linear-gradient(180deg,#fff 0%,#a1a1a8 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    background-clip:text;
+  }
+  .hero .subtitle{
+    font-size:clamp(14px,3vw,17px);
+    color:var(--text-secondary);font-weight:500;
+    margin-bottom:24px;max-width:480px;
+    margin-left:auto;margin-right:auto;
+  }
+  .hero-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+  .btn-hero{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:14px 28px;border-radius:var(--radius-full);
+    font-size:15px;font-weight:700;
+    width:100%;max-width:280px;white-space:nowrap;cursor:pointer;
+    transition:transform .15s var(--ease),box-shadow .2s var(--ease),background .2s var(--ease);
+  }
+  .btn-hero.primary{background:#fff;color:var(--bg);box-shadow:0 0 24px rgba(255,255,255,0.2);}
+  .btn-hero.primary:hover{
+    transform:translateY(-2px);
+    background:#f5f5f7;
+    box-shadow:0 0 40px rgba(255,255,255,0.35),0 0 80px rgba(255,255,255,0.15);
+  }
+  .btn-hero.primary:active{transform:scale(0.98);}
+  .btn-hero.secondary{
+    background:rgba(255,255,255,0.05);
+    border:0.5px solid var(--border-strong);
+    color:var(--text);
+  }
+  .btn-hero.secondary:hover{
+    background:rgba(255,255,255,0.08);
+    border-color:var(--border-glow);
+  }
+
+  @media (min-width:640px){
+    .hero{padding:96px 0 48px;}
+    .hero-logo{width:100px;height:100px;border-radius:26px;}
+    .btn-hero{width:auto;}
+  }
+
+  /* SECTION */
+  .section{padding:40px 0;}
+  @media (min-width:640px){.section{padding:64px 0;}}
+  .section-head{
+    text-align:center;margin-bottom:28px;
+    max-width:520px;margin-left:auto;margin-right:auto;
+  }
+  .section-head h2{margin-bottom:8px;}
+  .section-head p{color:var(--text-secondary);font-size:14px;line-height:1.6;}
+  @media (min-width:640px){
+    .section-head{margin-bottom:36px;}
+    .section-head p{font-size:15px;}
+  }
+
+  /* FEATURES */
+  .features{
+    display:grid;grid-template-columns:1fr;gap:12px;
+    max-width:720px;margin:0 auto;
+  }
+  @media (min-width:640px){.features{grid-template-columns:1fr 1fr;}}
+  .feature{
+    display:flex;align-items:flex-start;gap:14px;
+    padding:18px;
+    background:var(--surface);
+    border:0.5px solid var(--border);
+    border-radius:var(--radius-md);
+    transition:background .2s var(--ease),border-color .2s var(--ease),box-shadow .2s var(--ease);
+  }
+  .feature:hover{
+    background:var(--surface-hover);
+    border-color:var(--border-glow);
+    box-shadow:var(--glow-sm);
+  }
+  .feature-icon{
+    width:40px;height:40px;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:20px;flex-shrink:0;
+    background:rgba(255,255,255,0.06);
+    border:0.5px solid rgba(255,255,255,0.12);
+    color:#fff;
+    transition:box-shadow .2s var(--ease);
+  }
+  .feature:hover .feature-icon{box-shadow:0 0 16px rgba(255,255,255,0.15);}
+  .feature-text h3{font-size:14.5px;font-weight:700;margin-bottom:4px;}
+  .feature-text p{font-size:13px;color:var(--text-secondary);line-height:1.55;}
+
+  /* PRICING */
+  .pricing-preview{
+    display:grid;grid-template-columns:1fr;gap:12px;
+    max-width:960px;margin:0 auto;
+  }
+  @media (min-width:640px){.pricing-preview{grid-template-columns:1fr 1fr;}}
+  @media (min-width:900px){.pricing-preview{grid-template-columns:repeat(4,1fr);}}
+  .price-card{
+    padding:20px;
+    background:var(--surface);
+    border:0.5px solid var(--border);
+    border-radius:var(--radius-md);
+    text-align:center;position:relative;
+    transition:border-color .2s var(--ease),box-shadow .2s var(--ease);
+  }
+  .price-card:hover{
+    border-color:var(--border-glow);
+    box-shadow:var(--glow-sm);
+  }
+  .price-card.popular{
+    border-color:rgba(255,255,255,0.3);
+    background:rgba(255,255,255,0.06);
+    box-shadow:var(--glow-md);
+  }
+  .price-card.popular::before{
+    content:'POPULAR';
+    position:absolute;top:-10px;left:50%;transform:translateX(-50%);
+    padding:3px 10px;border-radius:var(--radius-full);
+    font-size:10px;font-weight:700;letter-spacing:0.06em;
+    background:#fff;color:var(--bg);
+    box-shadow:var(--glow-md);
+  }
+  .price-card h3{
+    font-size:13px;font-weight:600;color:var(--text-secondary);
+    text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;
+  }
+  .price-card .price{
+    font-size:24px;font-weight:800;letter-spacing:-0.02em;
+    margin-bottom:4px;color:var(--text);
+  }
+  .price-card .duration{
+    font-size:12.5px;color:var(--text-tertiary);
+    margin-bottom:14px;
+  }
+  .price-card ul{list-style:none;text-align:left;margin-bottom:16px;}
+  .price-card ul li{
+    font-size:12.5px;color:var(--text-secondary);
+    padding:4px 0;display:flex;align-items:center;gap:6px;
+  }
+  .price-card ul li .bx{color:#fff;font-size:14px;flex-shrink:0;}
+
+  /* CTA */
+  .cta-section{padding:48px 0 64px;text-align:center;}
+  .cta-card{
+    max-width:600px;margin:0 auto;
+    padding:32px 24px;
+    background:var(--surface);
+    border:0.5px solid var(--border-strong);
+    border-radius:var(--radius-lg);
+    box-shadow:var(--glow-sm);
+  }
+  .cta-card h2{font-size:22px;font-weight:800;letter-spacing:-0.02em;margin-bottom:8px;}
+  .cta-card p{color:var(--text-secondary);font-size:14px;margin-bottom:20px;}
+  .cta-card .btn-hero{margin:0 auto;display:inline-flex;}
+
+  /* FOOTER */
+  footer{
+    border-top:0.5px solid var(--border);
+    padding:24px 0;text-align:center;
+    font-size:12.5px;color:var(--text-tertiary);
+    word-wrap:break-word;
+  }
+
+  /* TOAST */
+  .toast-wrap{
+    position:fixed;top:70px;left:50%;transform:translateX(-50%);z-index:500;
+    display:flex;flex-direction:column;gap:8px;
+    width:calc(100% - 32px);max-width:400px;pointer-events:none;
+  }
+  .toast{
+    background:rgba(20,20,24,0.95);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border:0.5px solid rgba(255,255,255,0.15);
+    border-radius:var(--radius-sm);padding:13px 15px;
+    display:flex;align-items:center;gap:10px;
+    box-shadow:0 12px 40px -8px rgba(0,0,0,0.6),var(--glow-sm);
+    animation:slideDown .3s var(--ease);pointer-events:auto;
+    font-size:13.5px;word-wrap:break-word;
+  }
+  .toast .bx{font-size:19px;flex-shrink:0;color:#fff;}
+  .toast.success{border-left:3px solid #fff;}
+  .toast.error{border-left:3px solid rgba(255,255,255,0.5);}
+  .toast.info{border-left:3px solid rgba(255,255,255,0.3);}
+
+  /* ANIMATIONS */
+  @keyframes pulse{
+    0%,100%{opacity:1;transform:scale(1);}
+    50%{opacity:0.4;transform:scale(0.9);}
+  }
+  @keyframes slideDown{
+    from{opacity:0;transform:translateY(-10px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+</style>
+</head>
+<body data-page="home">
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="brand">
+      <img src="assets/logo.png" alt="Noerz Activator">
+      <span>Noerz Activator</span>
+    </a>
+    <div class="nav-actions" id="navActions">
+      <a href="login.html" class="btn-nav">Login</a>
+      <a href="register.html" class="btn-nav primary">Daftar</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+  <section class="hero">
+    <div class="container">
+      <img src="assets/logo.png" alt="Noerz Activator" class="hero-logo">
+      <div class="hero-eyebrow">
+        <span class="dot"></span>
+        AM Activators Engine
+      </div>
+      <h1>Noerz Activator</h1>
+      <p class="subtitle">Aktivasi Alight Motion cepat, simple, dan praktis.</p>
+      <div class="hero-actions">
+        <a href="register.html" class="btn-hero primary">
+          <i class='bx bx-user-plus'></i>
+          Daftar Gratis
+        </a>
+        <a href="login.html" class="btn-hero secondary">
+          Sudah Punya Akun
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Kenapa Noerz Activator?</h2>
+        <p>Aktivasi Alight Motion dengan mudah, tanpa ribet.</p>
+      </div>
+      <div class="features">
+        <div class="feature">
+          <div class="feature-icon"><i class='bx bx-rocket'></i></div>
+          <div class="feature-text">
+            <h3>Cepat & Praktis</h3>
+            <p>Aktivasi Alight Motion dalam hitungan menit, tidak perlu ribet.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon"><i class='bx bx-user-check'></i></div>
+          <div class="feature-text">
+            <h3>Akun Terdaftar</h3>
+            <p>Login untuk track riwayat aktivasi dan kuota Anda.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon"><i class='bx bx-crown'></i></div>
+          <div class="feature-text">
+            <h3>Tier Fleksibel</h3>
+            <p>Free 3x aktivasi. Butuh lebih? Upgrade sesuai kebutuhan.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon"><i class='bx bx-shield-quarter'></i></div>
+          <div class="feature-text">
+            <h3>Aman & Terpercaya</h3>
+            <p>Data Anda aman. Password di-hash dengan enkripsi modern.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Pilih Tier Anda</h2>
+        <p>Mulai gratis, upgrade kapan saja.</p>
+      </div>
+      <div class="pricing-preview">
+        <div class="price-card">
+          <h3>Free</h3>
+          <div class="price">Rp 0</div>
+          <div class="duration">Selamanya</div>
+          <ul>
+            <li><i class='bx bx-check'></i> 3x aktivasi</li>
+            <li><i class='bx bx-check'></i> Semua fitur dasar</li>
+          </ul>
+        </div>
+        <div class="price-card">
+          <h3>Pertalite</h3>
+          <div class="price">Rp 3.000</div>
+          <div class="duration">1 hari</div>
+          <ul>
+            <li><i class='bx bx-check'></i> Unlimited aktivasi</li>
+            <li><i class='bx bx-check'></i> Semua fitur</li>
+            <li><i class='bx bx-check'></i> Aktif 1 hari</li>
+          </ul>
+        </div>
+        <div class="price-card">
+          <h3>Pertamax</h3>
+          <div class="price">Rp 8.000</div>
+          <div class="duration">7 hari</div>
+          <ul>
+            <li><i class='bx bx-check'></i> Unlimited aktivasi</li>
+            <li><i class='bx bx-check'></i> Semua fitur</li>
+            <li><i class='bx bx-check'></i> Aktif 7 hari</li>
+          </ul>
+        </div>
+        <div class="price-card popular">
+          <h3>Pertamax Turbo</h3>
+          <div class="price">Rp 15.000</div>
+          <div class="duration">30 hari</div>
+          <ul>
+            <li><i class='bx bx-check'></i> Unlimited aktivasi</li>
+            <li><i class='bx bx-check'></i> Semua fitur</li>
+            <li><i class='bx bx-check'></i> Aktif 30 hari</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-card">
+        <h2>Siap mulai?</h2>
+        <p>Daftar gratis sekarang. Tidak perlu kartu kredit.</p>
+        <a href="register.html" class="btn-hero primary">
+          <i class='bx bx-user-plus'></i>
+          Daftar Sekarang
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    © 2026 Noerholic. All rights reserved.
+  </div>
+</footer>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/app.js"></script>
+<script src="js/auth.js"></script>
+
+</body>
+</html>

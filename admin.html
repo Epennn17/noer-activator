@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Admin Panel — Noerz Activator</title>
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
+<style>
+  :root{
+    --bg:#08080a;
+    --surface:rgba(255,255,255,0.04);
+    --surface-hover:rgba(255,255,255,0.06);
+    --border:rgba(255,255,255,0.08);
+    --border-strong:rgba(255,255,255,0.14);
+    --border-glow:rgba(255,255,255,0.3);
+    --text:#f5f5f7;
+    --text-secondary:#9a9aa2;
+    --text-tertiary:#68686f;
+    --radius-sm:10px;
+    --radius-md:14px;
+    --radius-lg:20px;
+    --radius-full:9999px;
+    --ease:cubic-bezier(0.16,1,0.3,1);
+    --glow-sm:0 0 16px rgba(255,255,255,0.06);
+    --glow-md:0 0 24px rgba(255,255,255,0.12);
+    --glow-lg:0 0 40px rgba(255,255,255,0.2);
+  }
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html{overflow-x:hidden;overflow-x:clip;}
+  body{
+    overflow-x:hidden;overflow-x:clip;
+    background:var(--bg);color:var(--text);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;min-height:100vh;font-size:15px;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+  :focus{outline:none;}
+  :focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:6px;}
+  h1,h2,h3{font-weight:700;line-height:1.15;letter-spacing:-0.02em;}
+
+  .container{width:100%;max-width:960px;margin:0 auto;padding:0 16px;box-sizing:border-box;}
+
+  /* NAV */
+  .nav{
+    position:sticky;top:0;z-index:100;
+    background:rgba(8,8,10,0.75);
+    backdrop-filter:blur(20px) saturate(160%);
+    -webkit-backdrop-filter:blur(20px) saturate(160%);
+    border-bottom:0.5px solid var(--border);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:56px;gap:12px;}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;min-width:0;color:var(--text);}
+  .brand img{width:28px;height:28px;border-radius:7px;object-fit:cover;flex-shrink:0;}
+  .brand span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .nav-actions{display:flex;gap:8px;align-items:center;flex-shrink:0;}
+  .btn-nav{
+    display:inline-flex;align-items:center;justify-content:center;gap:6px;
+    padding:8px 16px;border-radius:var(--radius-full);
+    font-size:13.5px;font-weight:600;
+    border:0.5px solid var(--border-strong);
+    background:rgba(255,255,255,0.04);color:var(--text);
+    white-space:nowrap;
+    transition:background .2s var(--ease),border-color .2s var(--ease);
+  }
+  .btn-nav:hover{background:rgba(255,255,255,0.08);border-color:var(--border-glow);}
+  .btn-nav .bx{font-size:16px;}
+
+  /* PAGE */
+  .page{padding:32px 0 64px;}
+  .page-head{margin-bottom:24px;}
+  .page-head h1{font-size:clamp(22px,4vw,28px);font-weight:800;margin-bottom:4px;}
+  .page-head p{font-size:14px;color:var(--text-secondary);}
+
+  /* ADMIN STATS */
+  .admin-stats{
+    display:grid;grid-template-columns:1fr 1fr;
+    gap:10px;margin-bottom:24px;
+  }
+  @media (min-width:768px){.admin-stats{grid-template-columns:repeat(4,1fr);}}
+  .admin-stat{
+    padding:16px;
+    background:var(--surface);
+    border:0.5px solid var(--border);
+    border-radius:var(--radius-md);
+    text-align:center;
+    transition:border-color .2s var(--ease),box-shadow .2s var(--ease);
+  }
+  .admin-stat:hover{
+    border-color:var(--border-glow);
+    box-shadow:var(--glow-sm);
+  }
+  .admin-stat-icon{
+    width:36px;height:36px;border-radius:10px;
+    background:rgba(255,255,255,0.06);
+    border:0.5px solid rgba(255,255,255,0.12);
+    display:flex;align-items:center;justify-content:center;
+    font-size:18px;color:#fff;
+    margin:0 auto 10px;
+  }
+  .admin-stat-value{
+    font-size:20px;font-weight:800;
+    letter-spacing:-0.02em;margin-bottom:2px;
+  }
+  .admin-stat-label{
+    font-size:11.5px;color:var(--text-tertiary);
+  }
+
+  /* SECTION */
+  .section{padding:24px 0;}
+  .section-head{
+    text-align:left;margin-bottom:16px;
+    max-width:100%;
+  }
+  .section-head h2{font-size:18px;font-weight:800;}
+  .section-head p{font-size:13px;color:var(--text-secondary);margin-top:4px;}
+
+  /* PAYMENT LIST */
+  .payment-list{display:flex;flex-direction:column;gap:10px;}
+  .payment-item{
+    padding:18px;
+    background:var(--surface);
+    border:0.5px solid var(--border-strong);
+    border-radius:var(--radius-md);
+    transition:border-color .2s var(--ease),box-shadow .2s var(--ease);
+  }
+  .payment-item:hover{
+    border-color:var(--border-glow);
+    box-shadow:var(--glow-sm);
+  }
+  .payment-item-head{
+    display:flex;justify-content:space-between;
+    align-items:flex-start;margin-bottom:12px;gap:10px;
+  }
+  .payment-item-id{
+    font-size:11.5px;font-weight:600;
+    color:var(--text-tertiary);
+    font-variant-numeric:tabular-nums;
+    word-break:break-all;
+  }
+  .payment-item-time{
+    font-size:11.5px;color:var(--text-tertiary);
+    flex-shrink:0;
+  }
+  .payment-item-detail{
+    display:flex;flex-direction:column;
+    gap:6px;margin-bottom:14px;
+  }
+  .payment-item-row{
+    display:flex;align-items:center;gap:8px;
+    font-size:13px;color:var(--text-secondary);
+  }
+  .payment-item-row .bx{
+    font-size:15px;color:#fff;flex-shrink:0;
+  }
+  .payment-item-row strong{color:#fff;font-weight:600;}
+  .payment-item-actions{
+    display:flex;gap:8px;flex-wrap:wrap;
+  }
+
+  /* BUTTONS */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:13px 24px;border-radius:var(--radius-full);
+    font-size:14.5px;font-weight:700;
+    white-space:nowrap;cursor:pointer;
+    width:100%;text-align:center;
+    transition:transform .15s var(--ease),box-shadow .2s var(--ease),background .2s var(--ease);
+  }
+  .btn:active:not(:disabled){transform:scale(0.98);}
+  .btn:disabled{opacity:0.6;cursor:not-allowed;}
+  .btn .bx{font-size:18px;flex-shrink:0;}
+  .btn-sm{padding:10px 16px;font-size:13.5px;}
+  .btn-primary{background:#fff;color:var(--bg);box-shadow:0 0 24px rgba(255,255,255,0.2);}
+  .btn-primary:hover:not(:disabled){
+    background:#f5f5f7;
+    box-shadow:0 0 40px rgba(255,255,255,0.35);
+  }
+  .btn-ghost{
+    background:transparent;
+    border:0.5px solid var(--border-strong);
+    color:var(--text);
+  }
+  .btn-ghost:hover:not(:disabled){
+    background:rgba(255,255,255,0.06);
+    border-color:var(--border-glow);
+  }
+  .payment-item-actions .btn{
+    flex:1;min-width:120px;
+  }
+
+  /* USER LIST */
+  .user-list{display:flex;flex-direction:column;gap:8px;}
+  .user-item{
+    display:flex;align-items:center;gap:12px;
+    padding:14px 16px;
+    background:var(--surface);
+    border:0.5px solid var(--border);
+    border-radius:var(--radius-sm);
+    transition:border-color .2s var(--ease),background .2s var(--ease);
+  }
+  .user-item:hover{
+    background:var(--surface-hover);
+    border-color:var(--border-glow);
+  }
+  .user-avatar{
+    width:40px;height:40px;border-radius:50%;
+    background:rgba(255,255,255,0.06);
+    border:0.5px solid rgba(255,255,255,0.15);
+    display:flex;align-items:center;justify-content:center;
+    font-size:16px;font-weight:700;color:#fff;
+    flex-shrink:0;text-transform:uppercase;
+  }
+  .user-info{flex:1;min-width:0;}
+  .user-info strong{
+    display:block;font-size:13.5px;color:var(--text);
+    margin-bottom:2px;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+  .user-info span{
+    font-size:12px;color:var(--text-tertiary);
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+    display:block;
+  }
+  .user-tier-badge{
+    padding:3px 10px;border-radius:var(--radius-full);
+    font-size:10.5px;font-weight:700;
+    letter-spacing:0.04em;text-transform:uppercase;
+    flex-shrink:0;
+    background:rgba(255,255,255,0.1);
+    border:0.5px solid rgba(255,255,255,0.2);
+    color:#fff;
+  }
+  .user-tier-badge.free{
+    background:rgba(255,255,255,0.04);
+    color:var(--text-tertiary);
+    border-color:var(--border);
+  }
+
+  /* FORM SEARCH */
+  .field{margin-bottom:16px;}
+  .field input{
+    width:100%;padding:13px 15px;
+    background:rgba(0,0,0,0.25);
+    border:0.5px solid var(--border-strong);
+    border-radius:var(--radius-sm);
+    color:var(--text);font-family:inherit;font-size:15px;
+    transition:border-color .2s var(--ease),box-shadow .2s var(--ease);
+  }
+  .field input::placeholder{color:var(--text-tertiary);}
+  .field input:focus{
+    outline:none;border-color:rgba(255,255,255,0.4);
+    background:rgba(0,0,0,0.35);
+    box-shadow:0 0 0 3px rgba(255,255,255,0.08),0 0 20px rgba(255,255,255,0.06);
+  }
+
+  /* EMPTY STATE */
+  .empty-state{
+    padding:32px 20px;text-align:center;
+    background:var(--surface);
+    border:0.5px dashed var(--border-strong);
+    border-radius:var(--radius-md);
+    color:var(--text-tertiary);
+  }
+  .empty-state .bx{
+    font-size:36px;margin-bottom:10px;
+    opacity:0.5;display:block;
+  }
+  .empty-state p{font-size:13.5px;}
+
+  /* FOOTER */
+  footer{
+    border-top:0.5px solid var(--border);
+    padding:24px 0;text-align:center;
+    font-size:12.5px;color:var(--text-tertiary);
+    word-wrap:break-word;
+  }
+
+  /* TOAST */
+  .toast-wrap{
+    position:fixed;top:70px;left:50%;transform:translateX(-50%);z-index:500;
+    display:flex;flex-direction:column;gap:8px;
+    width:calc(100% - 32px);max-width:400px;pointer-events:none;
+  }
+  .toast{
+    background:rgba(20,20,24,0.95);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border:0.5px solid rgba(255,255,255,0.15);
+    border-radius:var(--radius-sm);padding:13px 15px;
+    display:flex;align-items:center;gap:10px;
+    box-shadow:0 12px 40px -8px rgba(0,0,0,0.6),var(--glow-sm);
+    animation:slideDown .3s var(--ease);pointer-events:auto;
+    font-size:13.5px;word-wrap:break-word;
+  }
+  .toast .bx{font-size:19px;flex-shrink:0;color:#fff;}
+  .toast.success{border-left:3px solid #fff;}
+  .toast.error{border-left:3px solid rgba(255,255,255,0.5);}
+  .toast.info{border-left:3px solid rgba(255,255,255,0.3);}
+
+  @keyframes slideDown{
+    from{opacity:0;transform:translateY(-10px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+</style>
+</head>
+<body data-page="admin">
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="admin.html" class="brand">
+      <img src="assets/logo.png" alt="Noerz Activator">
+      <span>Admin Panel</span>
+    </a>
+    <div class="nav-actions">
+      <button type="button" class="btn-nav" id="logoutBtn">
+        <i class='bx bx-log-out'></i>
+        Logout
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main class="page">
+  <div class="container">
+
+    <div class="page-head">
+      <h1>Dashboard Admin</h1>
+      <p>Kelola user dan verifikasi pembayaran</p>
+    </div>
+
+    <!-- Statistik -->
+    <div class="admin-stats">
+      <div class="admin-stat">
+        <div class="admin-stat-icon"><i class='bx bx-group'></i></div>
+        <div class="admin-stat-value" id="statTotalUsers">0</div>
+        <div class="admin-stat-label">Total User</div>
+      </div>
+      <div class="admin-stat">
+        <div class="admin-stat-icon"><i class='bx bx-check-double'></i></div>
+        <div class="admin-stat-value" id="statTotalActivations">0</div>
+        <div class="admin-stat-label">Total Aktivasi</div>
+      </div>
+      <div class="admin-stat">
+        <div class="admin-stat-icon"><i class='bx bx-money'></i></div>
+        <div class="admin-stat-value" id="statRevenue">Rp 0</div>
+        <div class="admin-stat-label">Total Revenue</div>
+      </div>
+      <div class="admin-stat">
+        <div class="admin-stat-icon"><i class='bx bx-time'></i></div>
+        <div class="admin-stat-value" id="statPending">0</div>
+        <div class="admin-stat-label">Pending Bayar</div>
+      </div>
+    </div>
+
+    <!-- Verifikasi Pembayaran -->
+    <section class="section">
+      <div class="section-head">
+        <h2>Verifikasi Pembayaran</h2>
+        <p>Pembayaran yang menunggu verifikasi</p>
+      </div>
+
+      <div class="payment-list" id="paymentList">
+        <div class="empty-state">
+          <i class='bx bx-inbox'></i>
+          <p>Tidak ada pembayaran pending</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Kelola User -->
+    <section class="section">
+      <div class="section-head">
+        <h2>Kelola User</h2>
+      </div>
+
+      <div class="field">
+        <input type="search" id="userSearch" placeholder="Cari user by email atau username...">
+      </div>
+
+      <div class="user-list" id="userList">
+        <div class="empty-state">
+          <i class='bx bx-user'></i>
+          <p>Belum ada user</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    © 2026 Noerholic. All rights reserved.
+  </div>
+</footer>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/app.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/admin.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Dashboard — Noerz Activator</title>
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
+<style>
+  :root{
+    --bg:#08080a;
+    --surface:rgba(255,255,255,0.04);
+    --surface-hover:rgba(255,255,255,0.06);
+    --border:rgba(255,255,255,0.08);
+    --border-strong:rgba(255,255,255,0.14);
+    --border-glow:rgba(255,255,255,0.3);
+    --text:#f5f5f7;
+    --text-secondary:#9a9aa2;
+    --text-tertiary:#68686f;
+    --radius-sm:10px;
+    --radius-md:14px;
+    --radius-lg:20px;
+    --radius-full:9999px;
+    --ease:cubic-bezier(0.16,1,0.3,1);
+    --glow-sm:0 0 16px rgba(255,255,255,0.06);
+    --glow-md:0 0 24px rgba(255,255,255,0.12);
+    --glow-lg:0 0 40px rgba(255,255,255,0.2);
+  }
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html{overflow-x:hidden;overflow-x:clip;}
+  body{
+    overflow-x:hidden;overflow-x:clip;
+    background:var(--bg);color:var(--text);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;min-height:100vh;font-size:15px;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+  :focus{outline:none;}
+  :focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:6px;}
+  h1,h2,h3{font-weight:700;line-height:1.15;letter-spacing:-0.02em;}
+  h1{font-size:clamp(22px,4vw,28px);font-weight:800;}
+
+  .container{width:100%;max-width:960px;margin:0 auto;padding:0 16px;box-sizing:border-box;}
+
+  /* NAV */
+  .nav{
+    position:sticky;top:0;z-index:100;
+    background:rgba(8,8,10,0.75);
+    backdrop-filter:blur(20px) saturate(160%);
+    -webkit-backdrop-filter:blur(20px) saturate(160%);
+    border-bottom:0.5px solid var(--border);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:56px;gap:12px;}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;min-width:0;color:var(--text);}
+  .brand img{width:28px;height:28px;border-radius:7px;object-fit:cover;flex-shrink:0;}
+  .brand span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .nav-actions{display:flex;gap:8px;align-items:center;flex-shrink:0;}
+  .btn-nav{
+    display:inline-flex;align-items:center;justify-content:center;gap:6px;
+    padding:8px 16px;border-radius:var(--radius-full);
+    font-size:13.5px;font-weight:600;
+    border:0.5px solid var(--border-strong);
+    background:rgba(255,255,255,0.04);color:var(--text);
+    white-space:nowrap;
+    transition:background .2s var(--ease),border-color .2s var(--ease),box-shadow .2s var(--ease);
+  }
+  .btn-nav:hover{background:rgba(255,255,255,0.08);border-color:var(--border-glow);}
+  .btn-nav .bx{font-size:16px;}
+
+  /* PAGE */
+  .page{padding:32px 0 64px;}
+  .page-head{margin-bottom:24px;}
+  .page-head h1{margin-bottom:4px;}
+  .page-head p{font-size:14px;color:var(--text-secondary);}
+
+  /* WELCOME */
+  .welcome{
+    display:flex;align-items:center;gap:14px;
+    padding:18px;
+    background:var(--surface);
+    border:0.5px solid var(--border);
+    border-radius:var(--radius-md);
+    margin-bottom:20px;
+  }
+  .welcome-avatar{
+    width:48px;height:48px;border-radius:50%;
+    background:rgba(255,255,255,0.06);
+    border:0.5px solid rgba(255,255,255,0.15);
+    display:flex;align-items:center;justify-content:center;
+    font-size:20px;font-weight:700;color:#fff;
+    flex-shrink:0;text-transform:uppercase;
+  }
+  .welcome-text{flex:1;min-width:0;}
+  .welcome-text h2{
+    font-size:16px;font-weight:700;margin-bottom:2px;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+  .welcome-text p{
+    font-size:13px;color:var(--text-secondary);
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+
+  /* TIER CARD */
+  .tier-card{
+    padding:24px 20px;
+    background:var(--surface);
+    border:0.5px solid var(--border-strong);
+    border-radius:var(--radius-md);
+    margin-bottom:20px;
+    box-shadow:var(--glow-sm);
+  }
+  .tier-card.premium{
+    border-color:rgba(255,255,255,0.3);
+    box-shadow:var(--glow-md);
+  }
+  .tier-card-head{
+    display:flex;align-items:center;justify-content:space-between;
+    margin-bottom:16px;gap:12px;
+  }
+  .tier-name{
+    display:flex;align-items:center;gap:10px;
+    font-size:20px;font-weight:800;letter-spacing:-0.02em;
+  }
+  .tier-name .bx{font-size:24px;color:#fff;}
+  .tier-badge{
+    padding:4px 12px;border-radius:var(--radius-full);
+    font-size:10.5px;font-weight:700;
+    letter-spacing:0.06em;text-transform:uppercase;
+    background:rgba(255,255,255,0.1);
+    border:0.5px solid rgba(255,255,255,0.2);
+    color:#fff;flex-shrink:0;
+  }
+  .tier-badge.active{background:#fff;color:var(--bg);box-shadow:0 0 16px rgba(255,255,255,0.3);}
+  .tier-badge.expired{background:rgba(255,255,255,0.06);color:var(--text-tertiary);}
+
+  .tier-info{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
+  .tier-info-row{
+    display:flex;align-items:center;gap:10px;
+    font-size:13.5px;color:var(--text-secondary);
+  }
+  .tier-info-row .bx{font-size:16px;color:#fff;flex-shrink:0;}
+  .tier-info-row strong{color:#fff;font-weight:600;}
+
+  .tier-progress{margin-top:12px;}
+  .tier-progress-head{
+    display:flex;justify-content:space-between;
+    font-size:12px;color:var(--text-tertiary);
+    margin-bottom:6px;
+  }
+  .tier-progress-bar{
+    height:6px;background:rgba(255,255,255,0.06);
+    border-radius:3px;overflow:hidden;
+  }
+  .tier-progress-fill{
+    height:100%;background:#fff;border-radius:3px;
+    transition:width .4s var(--ease);
+    box-shadow:0 0 12px rgba(255,255,255,0.4);
+  }
+
+  .tier-actions{
+    display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;
+  }
+  .tier-actions .btn{
+    flex:1;min-width:140px;
+  }
+
+  /* BUTTONS */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:13px 24px;border-radius:var(--radius-full);
+    font-size:14.5px;font-weight:700;
+    white-space:nowrap;cursor:pointer;
+    width:100%;text-align:center;
+    transition:transform .15s var(--ease),box-shadow .2s var(--ease),background .2s var(--ease);
+  }
+  .btn:active:not(:disabled){transform:scale(0.98);}
+  .btn:disabled{opacity:0.6;cursor:not-allowed;}
+  .btn .bx{font-size:18px;flex-shrink:0;}
+  .btn-primary{background:#fff;color:var(--bg);box-shadow:0 0 24px rgba(255,255,255,0.2);}
+  .btn-primary:hover:not(:disabled){
+    background:#f5f5f7;
+    box-shadow:0 0 40px rgba(255,255,255,0.35),0 0 80px rgba(255,255,255,0.15);
+  }
+  .btn-secondary{
+    background:rgba(255,255,255,0.05);
+    border:0.5px solid var(--border-strong);
+    color:var(--text);
+  }
+  .btn-secondary:hover:not(:disabled){
+    background:rgba(255,255,255,0.08);
+    border-color:var(--border-glow);
+  }
+
+  /* STATS */
+  .stats-grid{
+    display:grid;grid-template-columns:1fr 1fr;
+    gap:10px;margin-bottom:24px;
+  }
+  .stat-card{
+    padding:16px;
+    background:var(--surface);
+    border:0.5px solid var(--border);
+    border-radius:var(--radius-md);
+    text-align:center;
+  }
+  .stat-icon{
+    width:36px;height:36px;border-radius:10px;
+    background:rgba(255,255,255,0.06);
+    border:0.5px solid rgba(255,255,255,0.12);
+    display:flex;align-items:center;justify-content:center;
+    font-size:18px;color:#fff;
+    margin:0 auto 10px;
+  }
+  .stat-value{
+    font-size:22px;font-weight:800;
+    letter-spacing:-0.02em;margin-bottom:2px;
+  }
+  .stat-label{
+    font-size:11.5px;color:var(--text-tertiary);
+    letter-spacing:0.02em;
+  }
+
+  /* SECTION */
+  .section{padding:24px 0;}
+  .section-head{
+    text-align:left;margin-bottom:16px;
+    max-width:100%;
+  }
+  .section-head h2{
+    font-size:18px;font-weight:800;
+    letter-spacing:-0.02em;
+  }
+  .section-head p{
+    font-size:13px;color:var(--text-secondary);
+    margin-top:4px;
+  }
+
+  /* RIWAYAT */
+  .riwayat-list{display:flex;flex-direction:column;gap:8px;}
+  .riwayat-item{
+    display:flex;align-items:center;gap:12px;
+    padding:14px 16px;
+    background:var(--surface);
+    border:0.5px solid var(--border);
+    border-radius:var(--radius-sm);
+    transition:border-color .2s var(--ease),background .2s var(--ease);
+  }
+  .riwayat-item:hover{
+    background:var(--surface-hover);
+    border-color:var(--border-glow);
+  }
+  .riwayat-icon{
+    width:36px;height:36px;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:18px;flex-shrink:0;
+    background:rgba(255,255,255,0.06);
+    border:0.5px solid rgba(255,255,255,0.12);
+    color:#fff;
+  }
+  .riwayat-text{flex:1;min-width:0;}
+  .riwayat-text strong{
+    display:block;font-size:13.5px;color:var(--text);
+    margin-bottom:2px;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+  .riwayat-text span{
+    font-size:12px;color:var(--text-tertiary);
+  }
+  .riwayat-status{
+    padding:3px 10px;border-radius:var(--radius-full);
+    font-size:10.5px;font-weight:700;
+    letter-spacing:0.04em;text-transform:uppercase;
+    flex-shrink:0;
+    background:rgba(255,255,255,0.1);
+    border:0.5px solid rgba(255,255,255,0.2);
+    color:#fff;
+  }
+  .riwayat-status.failed{
+    background:rgba(255,255,255,0.04);
+    color:var(--text-tertiary);
+    border-color:var(--border);
+  }
+
+  /* EMPTY STATE */
+  .empty-state{
+    padding:32px 20px;text-align:center;
+    background:var(--surface);
+    border:0.5px dashed var(--border-strong);
+    border-radius:var(--radius-md);
+    color:var(--text-tertiary);
+  }
+  .empty-state .bx{
+    font-size:36px;margin-bottom:10px;
+    opacity:0.5;display:block;
+  }
+  .empty-state p{font-size:13.5px;}
+
+  /* FOOTER */
+  footer{
+    border-top:0.5px solid var(--border);
+    padding:24px 0;text-align:center;
+    font-size:12.5px;color:var(--text-tertiary);
+    word-wrap:break-word;
+  }
+
+  /* TOAST */
+  .toast-wrap{
+    position:fixed;top:70px;left:50%;transform:translateX(-50%);z-index:500;
+    display:flex;flex-direction:column;gap:8px;
+    width:calc(100% - 32px);max-width:400px;pointer-events:none;
+  }
+  .toast{
+    background:rgba(20,20,24,0.95);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border:0.5px solid rgba(255,255,255,0.15);
+    border-radius:var(--radius-sm);padding:13px 15px;
+    display:flex;align-items:center;gap:10px;
+    box-shadow:0 12px 40px -8px rgba(0,0,0,0.6),var(--glow-sm);
+    animation:slideDown .3s var(--ease);pointer-events:auto;
+    font-size:13.5px;word-wrap:break-word;
+  }
+  .toast .bx{font-size:19px;flex-shrink:0;color:#fff;}
+  .toast.success{border-left:3px solid #fff;}
+  .toast.error{border-left:3px solid rgba(255,255,255,0.5);}
+  .toast.info{border-left:3px solid rgba(255,255,255,0.3);}
+
+  @keyframes slideDown{
+    from{opacity:0;transform:translateY(-10px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+</style>
+</head>
+<body data-page="dashboard">
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="brand">
+      <img src="assets/logo.png" alt="Noerz Activator">
+      <span>Noerz Activator</span>
+    </a>
+    <div class="nav-actions">
+      <button type="button" class="btn-nav" id="logoutBtn">
+        <i class='bx bx-log-out'></i>
+        Logout
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main class="page">
+  <div class="container">
+
+    <!-- Welcome -->
+    <div class="welcome">
+      <div class="welcome-avatar" id="userAvatar">N</div>
+      <div class="welcome-text">
+        <h2 id="welcomeName">Halo, Noerholic</h2>
+        <p id="welcomeEmail">user@email.com</p>
+      </div>
+    </div>
+
+    <!-- Tier Card -->
+    <div class="tier-card" id="tierCard">
+      <div class="tier-card-head">
+        <div class="tier-name">
+          <i class='bx bx-crown'></i>
+          <span id="tierName">Free</span>
+        </div>
+        <span class="tier-badge active" id="tierBadge">Active</span>
+      </div>
+
+      <div class="tier-info">
+        <div class="tier-info-row">
+          <i class='bx bx-check-circle'></i>
+          <span id="tierStatus">3x aktivasi tersisa</span>
+        </div>
+        <div class="tier-info-row" id="tierExpiryRow" style="display:none;">
+          <i class='bx bx-time'></i>
+          <span>Aktif sampai: <strong id="tierExpiry">-</strong></span>
+        </div>
+      </div>
+
+      <div class="tier-progress" id="tierProgress" style="display:none;">
+        <div class="tier-progress-head">
+          <span>Sisa kuota</span>
+          <span id="tierProgressText">3 / 3</span>
+        </div>
+        <div class="tier-progress-bar">
+          <div class="tier-progress-fill" id="tierProgressFill" style="width:100%;"></div>
+        </div>
+      </div>
+
+      <div class="tier-actions">
+        <a href="activate.html" class="btn btn-primary">
+          <i class='bx bx-rocket'></i>
+          Mulai Aktivasi
+        </a>
+        <a href="upgrade.html" class="btn btn-secondary">
+          <i class='bx bx-up-arrow-alt'></i>
+          Upgrade Tier
+        </a>
+      </div>
+    </div>
+
+    <!-- Statistik -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon"><i class='bx bx-check-double'></i></div>
+        <div class="stat-value" id="statSuccess">0</div>
+        <div class="stat-label">Aktivasi Sukses</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon"><i class='bx bx-x-circle'></i></div>
+        <div class="stat-value" id="statFailed">0</div>
+        <div class="stat-label">Aktivasi Gagal</div>
+      </div>
+    </div>
+
+    <!-- Riwayat Aktivasi -->
+    <section class="section">
+      <div class="section-head">
+        <h2>Riwayat Aktivasi</h2>
+        <p>20 aktivasi terakhir Anda</p>
+      </div>
+
+      <div class="riwayat-list" id="riwayatList">
+        <div class="empty-state">
+          <i class='bx bx-inbox'></i>
+          <p>Belum ada riwayat aktivasi</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    © 2026 Noerholic. All rights reserved.
+  </div>
+</footer>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/app.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/dashboard.js"></script>
+
+</body>
+</html>

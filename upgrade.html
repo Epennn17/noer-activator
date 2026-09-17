@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Upgrade Tier — Noerz Activator</title>
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
+<style>
+  :root{
+    --bg:#08080a;
+    --surface:rgba(255,255,255,0.04);
+    --surface-hover:rgba(255,255,255,0.06);
+    --border:rgba(255,255,255,0.08);
+    --border-strong:rgba(255,255,255,0.14);
+    --border-glow:rgba(255,255,255,0.3);
+    --text:#f5f5f7;
+    --text-secondary:#9a9aa2;
+    --text-tertiary:#68686f;
+    --radius-sm:10px;
+    --radius-md:14px;
+    --radius-lg:20px;
+    --radius-full:9999px;
+    --ease:cubic-bezier(0.16,1,0.3,1);
+    --glow-sm:0 0 16px rgba(255,255,255,0.06);
+    --glow-md:0 0 24px rgba(255,255,255,0.12);
+    --glow-lg:0 0 40px rgba(255,255,255,0.2);
+  }
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html{overflow-x:hidden;overflow-x:clip;}
+  body{
+    overflow-x:hidden;overflow-x:clip;
+    background:var(--bg);color:var(--text);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;min-height:100vh;font-size:15px;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+  :focus{outline:none;}
+  :focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:6px;}
+  h1,h2,h3{font-weight:700;line-height:1.15;letter-spacing:-0.02em;}
+
+  .container{width:100%;max-width:960px;margin:0 auto;padding:0 16px;box-sizing:border-box;}
+
+  /* NAV */
+  .nav{
+    position:sticky;top:0;z-index:100;
+    background:rgba(8,8,10,0.75);
+    backdrop-filter:blur(20px) saturate(160%);
+    -webkit-backdrop-filter:blur(20px) saturate(160%);
+    border-bottom:0.5px solid var(--border);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:56px;gap:12px;}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;min-width:0;color:var(--text);}
+  .brand img{width:28px;height:28px;border-radius:7px;object-fit:cover;flex-shrink:0;}
+  .brand span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .nav-actions{display:flex;gap:8px;align-items:center;flex-shrink:0;}
+  .btn-nav{
+    display:inline-flex;align-items:center;justify-content:center;gap:6px;
+    padding:8px 16px;border-radius:var(--radius-full);
+    font-size:13.5px;font-weight:600;
+    border:0.5px solid var(--border-strong);
+    background:rgba(255,255,255,0.04);color:var(--text);
+    white-space:nowrap;
+    transition:background .2s var(--ease),border-color .2s var(--ease);
+  }
+  .btn-nav:hover{background:rgba(255,255,255,0.08);border-color:var(--border-glow);}
+  .btn-nav .bx{font-size:16px;}
+
+  /* PAGE */
+  .page{padding:32px 0 64px;}
+  .page-head{text-align:center;margin-bottom:32px;}
+  .page-head h1{font-size:clamp(22px,4vw,28px);font-weight:800;margin-bottom:6px;}
+  .page-head p{font-size:14px;color:var(--text-secondary);}
+
+  /* PRICING GRID */
+  .pricing-full{
+    display:grid;grid-template-columns:1fr;
+    gap:12px;max-width:960px;margin:0 auto;
+  }
+  @media (min-width:640px){.pricing-full{grid-template-columns:1fr 1fr;}}
+  @media (min-width:900px){.pricing-full{grid-template-columns:repeat(3,1fr);}}
+
+  .tier-select-card{
+    padding:24px 20px;
+    background:var(--surface);
+    border:0.5px solid var(--border);
+    border-radius:var(--radius-md);
+    text-align:center;position:relative;
+    cursor:pointer;
+    transition:border-color .2s var(--ease),box-shadow .2s var(--ease),transform .15s var(--ease);
+  }
+  .tier-select-card:hover{
+    border-color:var(--border-glow);
+    box-shadow:var(--glow-md);
+    transform:translateY(-2px);
+  }
+  .tier-select-card.popular{
+    border-color:rgba(255,255,255,0.3);
+    background:rgba(255,255,255,0.06);
+    box-shadow:var(--glow-md);
+  }
+  .tier-select-card.popular::before{
+    content:'POPULAR';
+    position:absolute;top:-10px;left:50%;transform:translateX(-50%);
+    padding:3px 10px;border-radius:var(--radius-full);
+    font-size:10px;font-weight:700;letter-spacing:0.06em;
+    background:#fff;color:var(--bg);
+    box-shadow:var(--glow-md);
+  }
+
+  .tier-select-icon{
+    width:52px;height:52px;border-radius:14px;
+    background:rgba(255,255,255,0.06);
+    border:0.5px solid rgba(255,255,255,0.15);
+    display:flex;align-items:center;justify-content:center;
+    font-size:26px;color:#fff;
+    margin:0 auto 14px;
+  }
+  .tier-select-name{
+    font-size:16px;font-weight:700;margin-bottom:4px;
+  }
+  .tier-select-price{
+    font-size:26px;font-weight:800;
+    letter-spacing:-0.02em;margin-bottom:2px;
+  }
+  .tier-select-duration{
+    font-size:12.5px;color:var(--text-tertiary);
+    margin-bottom:16px;
+  }
+  .tier-select-features{
+    list-style:none;text-align:left;margin-bottom:18px;
+    display:flex;flex-direction:column;gap:8px;
+  }
+  .tier-select-features li{
+    font-size:13px;color:var(--text-secondary);
+    display:flex;align-items:center;gap:8px;
+  }
+  .tier-select-features li .bx{
+    color:#fff;font-size:15px;flex-shrink:0;
+  }
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:13px 24px;border-radius:var(--radius-full);
+    font-size:14.5px;font-weight:700;
+    white-space:nowrap;cursor:pointer;
+    width:100%;text-align:center;
+    transition:transform .15s var(--ease),box-shadow .2s var(--ease),background .2s var(--ease);
+  }
+  .btn:active:not(:disabled){transform:scale(0.98);}
+  .btn:disabled{opacity:0.6;cursor:not-allowed;}
+  .btn .bx{font-size:18px;flex-shrink:0;}
+  .btn-primary{background:#fff;color:var(--bg);box-shadow:0 0 24px rgba(255,255,255,0.2);}
+  .btn-primary:hover:not(:disabled){
+    background:#f5f5f7;
+    box-shadow:0 0 40px rgba(255,255,255,0.35),0 0 80px rgba(255,255,255,0.15);
+  }
+  .btn-secondary{
+    background:rgba(255,255,255,0.05);
+    border:0.5px solid var(--border-strong);
+    color:var(--text);
+  }
+  .btn-secondary:hover:not(:disabled){
+    background:rgba(255,255,255,0.08);
+    border-color:var(--border-glow);
+  }
+  .btn .spinner{
+    width:14px;height:14px;
+    border:2px solid rgba(0,0,0,0.2);
+    border-top-color:currentColor;border-radius:50%;
+    animation:spin .7s linear infinite;display:none;flex-shrink:0;
+  }
+  .btn.loading .spinner{display:inline-block;}
+
+  /* MODAL */
+  .modal-overlay{
+    position:fixed;inset:0;
+    background:rgba(0,0,0,0.7);
+    backdrop-filter:blur(4px);
+    -webkit-backdrop-filter:blur(4px);
+    z-index:1000;display:none;
+    align-items:center;justify-content:center;
+    padding:16px;
+  }
+  .modal-overlay.show{display:flex;animation:fadeIn .2s var(--ease);}
+  .modal{
+    width:100%;max-width:480px;
+    background:var(--bg);
+    border:0.5px solid var(--border-strong);
+    border-radius:var(--radius-md);
+    box-shadow:0 12px 40px -8px rgba(0,0,0,0.6),var(--glow-md);
+    max-height:90vh;overflow-y:auto;
+    animation:fadeInUp .3s var(--ease);
+  }
+  .modal-head{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 20px;
+    border-bottom:0.5px solid var(--border);
+  }
+  .modal-head h3{font-size:16px;font-weight:700;}
+  .modal-close{
+    width:32px;height:32px;border-radius:8px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:20px;
+    background:rgba(255,255,255,0.05);
+    border:0.5px solid var(--border-strong);
+    transition:background .2s var(--ease);
+  }
+  .modal-close:hover{background:rgba(255,255,255,0.1);}
+  .modal-body{padding:20px;}
+
+  /* PAYMENT INFO */
+  .payment-info{
+    display:flex;flex-direction:column;gap:12px;
+    margin-bottom:20px;
+  }
+  .payment-row{
+    display:flex;justify-content:space-between;
+    font-size:13.5px;color:var(--text-secondary);
+    padding:10px 0;
+    border-bottom:0.5px solid var(--border);
+  }
+  .payment-row:last-child{border-bottom:none;}
+  .payment-row strong{color:#fff;font-weight:700;}
+
+  .payment-countdown{
+    text-align:center;font-size:14px;
+    color:var(--text-secondary);margin-bottom:16px;
+  }
+  .payment-countdown strong{
+    color:#fff;font-size:20px;font-weight:700;
+    display:block;margin-top:4px;
+    font-variant-numeric:tabular-nums;
+  }
+
+  .payment-qris{
+    background:#fff;border-radius:var(--radius-sm);
+    padding:16px;margin:0 auto 12px;
+    max-width:260px;text-align:center;
+  }
+  .payment-qris img,
+  .payment-qris canvas{
+    width:100%;height:auto;display:block;border-radius:6px;
+  }
+
+  .payment-hint{
+    text-align:center;font-size:12.5px;
+    color:var(--text-tertiary);
+    margin-bottom:16px;line-height:1.5;
+  }
+
+  .payment-actions{
+    display:flex;flex-direction:column;gap:8px;
+  }
+
+  /* LOADING STATE */
+  .modal-loading{
+    text-align:center;padding:32px 20px;
+  }
+  .modal-loading .spinner-lg{
+    width:36px;height:36px;
+    border:3px solid rgba(255,255,255,0.1);
+    border-top-color:#fff;
+    border-radius:50%;
+    animation:spin .8s linear infinite;
+    margin:0 auto 14px;
+  }
+  .modal-loading p{
+    font-size:13.5px;color:var(--text-secondary);
+  }
+
+  /* EMPTY / ERROR STATE */
+  .modal-error{
+    text-align:center;padding:24px 20px;
+  }
+  .modal-error .bx{
+    font-size:44px;color:#fff;
+    display:block;margin-bottom:12px;
+  }
+  .modal-error p{
+    font-size:13.5px;color:var(--text-secondary);
+    line-height:1.5;margin-bottom:16px;
+  }
+
+  /* FOOTER */
+  footer{
+    border-top:0.5px solid var(--border);
+    padding:24px 0;text-align:center;
+    font-size:12.5px;color:var(--text-tertiary);
+    word-wrap:break-word;
+  }
+
+  /* TOAST */
+  .toast-wrap{
+    position:fixed;top:70px;left:50%;transform:translateX(-50%);z-index:500;
+    display:flex;flex-direction:column;gap:8px;
+    width:calc(100% - 32px);max-width:400px;pointer-events:none;
+  }
+  .toast{
+    background:rgba(20,20,24,0.95);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border:0.5px solid rgba(255,255,255,0.15);
+    border-radius:var(--radius-sm);padding:13px 15px;
+    display:flex;align-items:center;gap:10px;
+    box-shadow:0 12px 40px -8px rgba(0,0,0,0.6),var(--glow-sm);
+    animation:slideDown .3s var(--ease);pointer-events:auto;
+    font-size:13.5px;word-wrap:break-word;
+  }
+  .toast .bx{font-size:19px;flex-shrink:0;color:#fff;}
+  .toast.success{border-left:3px solid #fff;}
+  .toast.error{border-left:3px solid rgba(255,255,255,0.5);}
+  .toast.info{border-left:3px solid rgba(255,255,255,0.3);}
+
+  @keyframes spin{to{transform:rotate(360deg);}}
+  @keyframes slideDown{
+    from{opacity:0;transform:translateY(-10px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+  @keyframes fadeIn{
+    from{opacity:0;}
+    to{opacity:1;}
+  }
+  @keyframes fadeInUp{
+    from{opacity:0;transform:translateY(16px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+</style>
+</head>
+<body data-page="upgrade">
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="dashboard.html" class="brand">
+      <img src="assets/logo.png" alt="Noerz Activator">
+      <span>Noerz Activator</span>
+    </a>
+    <div class="nav-actions">
+      <a href="dashboard.html" class="btn-nav">
+        <i class='bx bx-arrow-back'></i>
+        Kembali
+      </a>
+    </div>
+  </div>
+</nav>
+
+<main class="page">
+  <div class="container">
+
+    <div class="page-head">
+      <h1>Upgrade Tier</h1>
+      <p>Pilih tier sesuai kebutuhan Anda</p>
+    </div>
+
+    <div class="pricing-full" id="pricingFull">
+      <!-- Diisi oleh JS -->
+    </div>
+
+  </div>
+</main>
+
+<!-- MODAL PAYMENT -->
+<div class="modal-overlay" id="paymentModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="modalTitle">Pembayaran</h3>
+      <button type="button" class="modal-close" id="modalClose" aria-label="Tutup">
+        <i class='bx bx-x'></i>
+      </button>
+    </div>
+    <div class="modal-body" id="modalBody">
+      <!-- Diisi oleh JS -->
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    © 2026 Noerholic. All rights reserved.
+  </div>
+</footer>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<!-- QR Code library -->
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/app.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/upgrade.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Donation — Noerz Activator</title>
+<meta name="description" content="Dukung pengembangan Noerz Activator.">
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
+<style>
+  :root{
+    --bg:#08080a;
+    --surface:rgba(255,255,255,0.04);
+    --surface-hover:rgba(255,255,255,0.06);
+    --border:rgba(255,255,255,0.08);
+    --border-strong:rgba(255,255,255,0.14);
+    --border-glow:rgba(255,255,255,0.3);
+    --text:#f5f5f7;
+    --text-secondary:#9a9aa2;
+    --text-tertiary:#68686f;
+    --radius-sm:10px;
+    --radius-md:14px;
+    --radius-lg:20px;
+    --radius-full:9999px;
+    --ease:cubic-bezier(0.16,1,0.3,1);
+    --glow-sm:0 0 16px rgba(255,255,255,0.06);
+    --glow-md:0 0 24px rgba(255,255,255,0.12);
+    --glow-lg:0 0 40px rgba(255,255,255,0.2);
+  }
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html{overflow-x:hidden;overflow-x:clip;}
+  body{
+    overflow-x:hidden;overflow-x:clip;
+    background:var(--bg);color:var(--text);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;min-height:100vh;font-size:15px;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+  :focus{outline:none;}
+  :focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:6px;}
+  h1,h2,h3{font-weight:700;line-height:1.15;letter-spacing:-0.02em;}
+
+  .container{width:100%;max-width:560px;margin:0 auto;padding:0 16px;box-sizing:border-box;}
+
+  /* NAV */
+  .nav{
+    position:sticky;top:0;z-index:100;
+    background:rgba(8,8,10,0.75);
+    backdrop-filter:blur(20px) saturate(160%);
+    -webkit-backdrop-filter:blur(20px) saturate(160%);
+    border-bottom:0.5px solid var(--border);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:56px;gap:12px;}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;min-width:0;color:var(--text);}
+  .brand img{width:28px;height:28px;border-radius:7px;object-fit:cover;flex-shrink:0;}
+  .brand span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .nav-actions{display:flex;gap:8px;align-items:center;flex-shrink:0;}
+  .btn-nav{
+    display:inline-flex;align-items:center;justify-content:center;gap:6px;
+    padding:8px 16px;border-radius:var(--radius-full);
+    font-size:13.5px;font-weight:600;
+    border:0.5px solid var(--border-strong);
+    background:rgba(255,255,255,0.04);color:var(--text);
+    white-space:nowrap;
+    transition:background .2s var(--ease),border-color .2s var(--ease);
+  }
+  .btn-nav:hover{background:rgba(255,255,255,0.08);border-color:var(--border-glow);}
+  .btn-nav .bx{font-size:16px;}
+
+  /* PAGE */
+  .page{padding:32px 0 64px;}
+  .page-head{text-align:center;margin-bottom:28px;}
+  .page-head h1{font-size:clamp(22px,4vw,28px);font-weight:800;margin-bottom:6px;}
+  .page-head p{font-size:14px;color:var(--text-secondary);}
+
+  /* CARD */
+  .card{
+    background:var(--surface);
+    border:0.5px solid var(--border);
+    border-radius:var(--radius-md);
+    padding:24px 20px;
+    text-align:center;
+    margin-bottom:20px;
+  }
+
+  .donate-icon{
+    width:64px;height:64px;border-radius:50%;
+    background:rgba(255,255,255,0.06);
+    border:0.5px solid rgba(255,255,255,0.15);
+    color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 16px;font-size:30px;
+    box-shadow:var(--glow-sm);
+  }
+  .card h2{font-size:17px;font-weight:700;margin-bottom:8px;}
+  .card > p{
+    color:var(--text-secondary);
+    font-size:13.5px;line-height:1.6;
+    margin-bottom:24px;
+  }
+
+  /* QRIS */
+  .qris-label{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:12.5px;font-weight:600;
+    color:var(--text-secondary);
+    margin-bottom:14px;
+    padding:6px 14px;
+    background:rgba(255,255,255,0.04);
+    border:0.5px solid var(--border);
+    border-radius:var(--radius-full);
+  }
+  .qris-label .bx{
+    font-size:15px;color:#fff;
+  }
+
+  .qris-wrap{
+    position:relative;
+    max-width:320px;
+    margin:0 auto 14px;
+  }
+
+  .qris-box{
+    position:relative;
+    background:#fff;
+    border-radius:var(--radius-md);
+    padding:6px;
+    overflow:hidden;
+    box-shadow:0 8px 32px -8px rgba(0,0,0,0.5),var(--glow-md);
+  }
+  .qris-box img{
+    width:100%;height:auto;
+    display:block;border-radius:8px;
+  }
+
+  /* Tombol unduh QRIS — overlay di pojok kanan atas */
+  .qris-download{
+    position:absolute;
+    top:14px;right:14px;
+    z-index:2;
+    width:38px;height:38px;
+    border-radius:10px;
+    background:rgba(8,8,10,0.85);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    border:0.5px solid rgba(255,255,255,0.2);
+    color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:20px;
+    cursor:pointer;
+    transition:transform .15s var(--ease),background .2s var(--ease),border-color .2s var(--ease);
+    box-shadow:0 4px 16px -4px rgba(0,0,0,0.6);
+  }
+  .qris-download:hover{
+    background:rgba(8,8,10,0.95);
+    border-color:rgba(255,255,255,0.3);
+  }
+  .qris-download:active{transform:scale(0.94);}
+
+  /* Tombol unduh versi bawah */
+  .qris-download-row{
+    display:flex;justify-content:center;
+    margin-bottom:14px;
+  }
+  .btn-download{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:10px 18px;border-radius:var(--radius-full);
+    font-size:13px;font-weight:600;
+    background:rgba(255,255,255,0.06);
+    border:0.5px solid var(--border-strong);
+    color:var(--text);
+    transition:transform .15s var(--ease),background .2s var(--ease),border-color .2s var(--ease);
+  }
+  .btn-download:hover{
+    background:rgba(255,255,255,0.1);
+    border-color:var(--border-glow);
+  }
+  .btn-download:active{transform:scale(0.97);}
+  .btn-download .bx{font-size:16px;color:#fff;}
+
+  .qris-hint{
+    font-size:13px;color:var(--text-secondary);
+    margin-bottom:8px;line-height:1.6;
+  }
+
+  /* DIVIDER */
+  .divider{
+    display:flex;align-items:center;gap:12px;
+    margin:24px 0 20px;
+    color:var(--text-tertiary);
+    font-size:11px;font-weight:600;
+    letter-spacing:0.08em;text-transform:uppercase;
+  }
+  .divider::before,
+  .divider::after{
+    content:'';flex:1;height:0.5px;
+    background:var(--border);
+  }
+
+  /* TOMBOL DONASI */
+  .btn-row{
+    display:grid;grid-template-columns:1fr 1fr;
+    gap:10px;margin-bottom:24px;
+  }
+  .btn-donate{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:13px 16px;border-radius:12px;
+    font-size:14px;font-weight:600;
+    border:0.5px solid var(--border-strong);
+    background:rgba(255,255,255,0.04);
+    text-align:center;min-width:0;
+    transition:transform .15s var(--ease),background .2s var(--ease),border-color .2s var(--ease),box-shadow .2s var(--ease);
+  }
+  .btn-donate:hover{
+    background:rgba(255,255,255,0.08);
+    border-color:var(--border-glow);
+    box-shadow:var(--glow-sm);
+  }
+  .btn-donate:active{transform:scale(0.97);}
+  .btn-donate .bx{font-size:18px;flex-shrink:0;color:#fff;}
+
+  /* THANK YOU */
+  .thanks-box{
+    padding:16px 18px;
+    background:rgba(255,255,255,0.02);
+    border:0.5px solid var(--border);
+    border-radius:12px;
+    font-size:13px;
+    color:var(--text-secondary);
+    line-height:1.65;text-align:center;
+  }
+  .thanks-box .bx{
+    color:#fff;font-size:18px;
+    display:block;margin:0 auto 8px;
+  }
+  .thanks-box strong{
+    color:#fff;font-weight:600;
+    display:block;margin-bottom:4px;
+    font-size:14px;
+  }
+
+  /* FOOTER */
+  footer{
+    border-top:0.5px solid var(--border);
+    padding:24px 0;text-align:center;
+    font-size:12.5px;color:var(--text-tertiary);
+    word-wrap:break-word;
+  }
+
+  /* TOAST */
+  .toast-wrap{
+    position:fixed;top:70px;left:50%;transform:translateX(-50%);z-index:500;
+    display:flex;flex-direction:column;gap:8px;
+    width:calc(100% - 32px);max-width:400px;pointer-events:none;
+  }
+  .toast{
+    background:rgba(20,20,24,0.95);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border:0.5px solid rgba(255,255,255,0.15);
+    border-radius:var(--radius-sm);padding:13px 15px;
+    display:flex;align-items:center;gap:10px;
+    box-shadow:0 12px 40px -8px rgba(0,0,0,0.6),var(--glow-sm);
+    animation:slideDown .3s var(--ease);pointer-events:auto;
+    font-size:13.5px;word-wrap:break-word;
+  }
+  .toast .bx{font-size:19px;flex-shrink:0;color:#fff;}
+  .toast.success{border-left:3px solid #fff;}
+  .toast.error{border-left:3px solid rgba(255,255,255,0.5);}
+  .toast.info{border-left:3px solid rgba(255,255,255,0.3);}
+
+  @keyframes slideDown{
+    from{opacity:0;transform:translateY(-10px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+</style>
+</head>
+<body data-page="donation">
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="brand">
+      <img src="assets/logo.png" alt="Noerz Activator">
+      <span>Noerz Activator</span>
+    </a>
+    <div class="nav-actions">
+      <a href="index.html" class="btn-nav">
+        <i class='bx bx-arrow-back'></i>
+        Kembali
+      </a>
+    </div>
+  </div>
+</nav>
+
+<main class="page">
+  <div class="container">
+
+    <div class="page-head">
+      <h1>Donation</h1>
+      <p>Dukung pengembangan Noerz Activator</p>
+    </div>
+
+    <div class="card">
+      <div class="donate-icon"><i class='bx bx-heart'></i></div>
+      <h2>Support the Project</h2>
+      <p>Setiap dukungan sangat berarti untuk menjaga server tetap aktif dan pengembangan berkelanjutan.</p>
+
+      <!-- QRIS Label -->
+      <div class="qris-label">
+        <i class='bx bx-qr'></i>
+        Scan QRIS
+      </div>
+
+      <!-- QRIS + tombol unduh overlay -->
+      <div class="qris-wrap">
+        <div class="qris-box">
+          <button type="button" class="qris-download" id="qrisDownloadTop" aria-label="Unduh QRIS" title="Unduh QRIS">
+            <i class='bx bx-download'></i>
+          </button>
+          <img src="assets/qris.png" alt="QRIS Noerz Activator" id="qrisImage">
+        </div>
+      </div>
+
+      <!-- Tombol unduh versi bawah -->
+      <div class="qris-download-row">
+        <button type="button" class="btn-download" id="qrisDownloadBtn">
+          <i class='bx bx-download'></i>
+          Unduh QRIS
+        </button>
+      </div>
+
+      <p class="qris-hint">Scan menggunakan aplikasi apapun yang mendukung QRIS.</p>
+
+      <!-- Divider -->
+      <div class="divider">atau</div>
+
+      <!-- Tombol donasi -->
+      <div class="btn-row">
+        <a href="https://sociabuzz.com/noerdevz/tribe" target="_blank" rel="noopener" class="btn-donate">
+          <i class='bx bx-rocket'></i>
+          Socialbuzz
+        </a>
+        <a href="https://saweria.co/NoerzxDL" target="_blank" rel="noopener" class="btn-donate">
+          <i class='bx bx-coffee'></i>
+          Saweria
+        </a>
+      </div>
+
+      <!-- Thank you -->
+      <div class="thanks-box">
+        <i class='bx bx-heart'></i>
+        <strong>Terima kasih</strong>
+        Dukungan Anda sangat berarti untuk menjaga server tetap aktif dan pengembangan Noerz Activator tetap berjalan.
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    © 2026 Noerholic. All rights reserved.
+  </div>
+</footer>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script src="js/app.js"></script>
+
+</body>
+</html>

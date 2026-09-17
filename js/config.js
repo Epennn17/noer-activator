@@ -5,7 +5,7 @@
 
 /* ===== SUPABASE ===== */
 /* GANTI dengan credentials dari project Supabase Anda */
-const SUPABASE_URL = 'https://pbwuzxpenwawqpcpjznl.supabase.co';
+const SUPABASE_URL = 'https://pbvuzxpenwawqpcpjznl.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBidnV6eHBlbndhd3FjcHFqem5sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2MzE2MTksImV4cCI6MjEwNTIwNzYxOX0.r-hwJOkn0rzUMdgnvNqwO5ypV3MN80O6YcfaPSTc_ok';
 
 /* ===== ADMIN ===== */
